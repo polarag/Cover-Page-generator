@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://wenzhixin.net.cn/p/bootstrap-table/src/bootstrap-table.css" rel="stylesheet" type="text/css" />
+
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://cdn.kendostatic.com/2014.1.318/styles/kendo.bootstrap.min.css" rel="stylesheet" />
+    <link href="http://protostrap.com/Assets/gv/css/gv.bootstrap-form.css" rel="stylesheet" type="text/css" />
+
+
+    
+</head>
+
+<body>
+    
+    <div class="container-fluid">
+        <div class="row">
+
+            <form action="../submit" id="formentry" class="form-horizontal" role="form" data-parsley-validate novalidate>
+                <div class="container-fluid shadow">
+                    <div class="row">
+  
+
+                        
+                                    <div class="row">
+                                        <div class="col-md-12"><div class="row"><div class="col-md-12"><div class="row"><div class="col-md-6"><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="BookTitle">Book Title</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="BookTitle" type="text" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId1"><span id="errId1" class="error"></span></div>
+                
+		</div><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="BookSubtitle">Book Subtitle</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="BookSubtitle" type="text" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId2"><span id="errId2" class="error"></span></div>
+                
+		</div><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="AuthorName">Author Name</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="AuthorName" type="text" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId3"><span id="errId3" class="error"></span></div>
+                
+		</div><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="Background">Background</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="Background" type="color" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId4"><span id="errId4" class="error"></span></div>
+                
+		</div><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="Publisher">Publisher</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="Publisher" type="text" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId5"><span id="errId5" class="error"></span></div>
+                
+		</div><div class="form-group">
+			    <label class="control-label control-label-left col-sm-3" for="PublishYear">Publish Year</label>
+			    <div class="controls col-sm-9">
+                    
+                <input id="PublishYear" type="text" class="form-control k-textbox" data-role="text" data-parsley-errors-container="#errId6"><span id="errId6" class="error"></span></div>
+                
+		</div>
+		<div class="form-group" style="align-content: center" >
+			    
+			    
+                
+		<button id="submit" type="button" class="btn btn-primary btn-lg" align="center" onclick="draw()" >Submit</button></div>
+		
+		</div><div class="col-md-6"><canvas id="mycanvas" width="496px" height="701.6px"> </canvas>
+		<div class="form-group" style="align-content: center" >
+			    
+			    
+                
+		<button id="submit" type="button" href="" class="btn btn-primary btn-lg" align="center" onclick="download()" >Download</button></div>
+		
+		</div></div></div></div></div></div>
+                                    </div>
+                                
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+<script>
+function draw()
+{
+var title = $('#BookTitle').val();
+var sub = $('#BookSubtitle').val();
+var name = $('#AuthorName').val();
+var backcolor = $('#Background').val();
+var publisher = $('#Publisher').val();
+var year = $('#PublishYear').val();
+
+
+var canvas = document.getElementById("mycanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillStyle = backcolor;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+//title
+ctx.font = "30px Arial";
+ctx.fillStyle = invertColor(backcolor);
+ctx.fillText(title, canvas.width/2.5, 65);
+
+//sub
+ctx.font = "15px Arial";
+
+ctx.fillText(sub, canvas.width/2.5 + 5, 120);
+
+//name
+ctx.font = "15px Arial";
+ctx.fillText(name, 10, 635);
+
+//publisher
+ctx.font = "15px Arial";
+ctx.fillText(publisher, 10, 660);
+
+//year
+ctx.font = "15px Arial";
+ctx.fillText(year, 10, 690);
+
+
+
+}
+
+function download()
+{
+var canvas = document.getElementById('mycanvas');
+ image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+
+ var link = document.createElement('a');
+  link.download = "CoverPage.png";
+  link.href = image;
+  link.click();
+
+}
+
+function invertColor(hexTripletColor) {
+	var color = hexTripletColor;
+	color = color.substring(1); // remove #
+	color = parseInt(color, 16); // convert to integer
+	color = 0xFFFFFF ^ color; // invert three bytes
+	color = color.toString(16); // convert to hex
+	color = ("000000" + color).slice(-6); // pad with leading zeros
+	color = "#" + color; // prepend #
+	return color;
+}
+</script>
+
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/jquery.min.js"></script>
+    <script src="http://protostrap.com/Assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+   
+
+    <script src="http://protostrap.com/Assets/inputmask/js/jquery.inputmask.js" type="text/javascript"></script>
+    <script src="http://cdn.kendostatic.com/2014.1.318/js/kendo.all.min.js"></script>
+    <script src="http://protostrap.com/Assets/parsely/parsley.extend.js" type="text/javascript"></script>
+    <script src="http://protostrap.com/Assets/parsely/2.0/parsley.js" type="text/javascript"></script>
+    <script src="http://protostrap.com/Assets/download.js" type="text/javascript"></script>
+    <script src="http://protostrap.com/Assets/protostrap.js" type="text/javascript"></script>
+</body>
+</html>
